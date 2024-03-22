@@ -1,0 +1,6 @@
+-e file:.
+black
+pip-tools
+pytest
+sphinx
+sphinx-book-theme
