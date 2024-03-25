@@ -1,4 +1,10 @@
 from jax import numpy as jnp
+from numpyro.distributions.constraints import (
+    Constraint,
+    dependent_property,
+    independent,
+    real,
+)
 from numpyro.distributions.transforms import biject_to, Transform
 from . import constraints
 
@@ -21,18 +27,6 @@ class IndependentDimensionTransform(Transform):
             y = self._inverse_by_axis(y, -(i + 1))
         return y
 
-    def _forward_by_axis(self, x: jnp.ndarray) -> jnp.ndarray:
-        raise NotImplementedError
-
-    def _inverse_by_axis(self, y: jnp.ndarray) -> jnp.ndarray:
-        raise NotImplementedError
-
-    def _forward_size_by_axis(self, shape: tuple, axis: int) -> int:
-        raise NotImplementedError
-
-    def _inverse_size_by_axis(self, shape: tuple, axis: int) -> int:
-        raise NotImplementedError
-
     def forward_shape(self, shape: tuple) -> tuple:
         batch_shape = shape[: -self.transform_ndims]
         event_shape = tuple(
@@ -48,6 +42,18 @@ class IndependentDimensionTransform(Transform):
             for i in range(self.transform_ndims)
         )
         return batch_shape + event_shape
+
+    def _forward_by_axis(self, x: jnp.ndarray) -> jnp.ndarray:
+        raise NotImplementedError
+
+    def _inverse_by_axis(self, y: jnp.ndarray) -> jnp.ndarray:
+        raise NotImplementedError
+
+    def _forward_size_by_axis(self, shape: tuple, axis: int) -> int:
+        raise NotImplementedError
+
+    def _inverse_size_by_axis(self, shape: tuple, axis: int) -> int:
+        raise NotImplementedError
 
     def tree_flatten(self):
         return (), ((), {"transform_ndims": self.transform_ndims})
@@ -84,6 +90,14 @@ class ZeroSumTransform(IndependentDimensionTransform):
         >>> jnp.allclose(x, transform.inv(y))
         Array(True, dtype=bool)
     """
+
+    @dependent_property(is_discrete=False)
+    def codomain(self) -> Constraint:
+        return constraints.zero_sum(self.transform_ndims)
+
+    @dependent_property(is_discrete=False)
+    def domain(self) -> Constraint:
+        return independent(real, self.transform_ndims)
 
     def _forward_by_axis(self, x: jnp.ndarray, axis: int = -1) -> jnp.ndarray:
         r"""
