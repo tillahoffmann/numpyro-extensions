@@ -77,6 +77,7 @@ def test_bijective_transforms(transform, shape):
     # Transform forward and backward, checking shapes, values, and Jacobian shape.
     y = transform(x1)
     assert y.shape == transform.forward_shape(x1.shape)
+    assert transform.codomain.check(y).all()
 
     x2 = transform.inv(y)
     assert x2.shape == transform.inverse_shape(y.shape)
