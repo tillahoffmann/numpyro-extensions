@@ -21,11 +21,33 @@ class IndependentDimensionTransform(Transform):
             y = self._inverse_by_axis(y, -(i + 1))
         return y
 
-    def _forward_by_axis(self, x: jnp.ndarray, axis: int = -1) -> jnp.ndarray:
+    def _forward_by_axis(self, x: jnp.ndarray) -> jnp.ndarray:
         raise NotImplementedError
 
-    def _inverse_by_axis(self, y: jnp.ndarray, axis: int = -1) -> jnp.ndarray:
+    def _inverse_by_axis(self, y: jnp.ndarray) -> jnp.ndarray:
         raise NotImplementedError
+
+    def _forward_size_by_axis(self, shape: tuple, axis: int) -> int:
+        raise NotImplementedError
+
+    def _inverse_size_by_axis(self, shape: tuple, axis: int) -> int:
+        raise NotImplementedError
+
+    def forward_shape(self, shape: tuple) -> tuple:
+        batch_shape = shape[: -self.transform_ndims]
+        event_shape = tuple(
+            self._forward_size_by_axis(shape, -self.transform_ndims + i)
+            for i in range(self.transform_ndims)
+        )
+        return batch_shape + event_shape
+
+    def inverse_shape(self, shape: tuple) -> tuple:
+        batch_shape = shape[: -self.transform_ndims]
+        event_shape = tuple(
+            self._inverse_size_by_axis(shape, -self.transform_ndims + i)
+            for i in range(self.transform_ndims)
+        )
+        return batch_shape + event_shape
 
     def tree_flatten(self):
         return (), ((), {"transform_ndims": self.transform_ndims})
@@ -92,7 +114,13 @@ class ZeroSumTransform(IndependentDimensionTransform):
     def log_abs_det_jacobian(
         self, x: jnp.ndarray, y: jnp.ndarray, intermediates: None = None
     ) -> jnp.ndarray:
-        return super().log_abs_det_jacobian(x, y, intermediates)
+        return jnp.zeros_like(x, shape=x.shape[: -self.transform_ndims])
+
+    def _forward_size_by_axis(self, shape: tuple, axis: int) -> int:
+        return shape[axis] + 1
+
+    def _inverse_size_by_axis(self, shape: tuple, axis: int) -> int:
+        return shape[axis] - 1
 
 
 class DecomposeSumTransform(IndependentDimensionTransform):
@@ -145,7 +173,13 @@ class DecomposeSumTransform(IndependentDimensionTransform):
     def log_abs_det_jacobian(
         self, x: jnp.ndarray, y: jnp.ndarray, intermediates: None = None
     ) -> jnp.ndarray:
-        return super().log_abs_det_jacobian(x, y, intermediates)
+        return jnp.zeros_like(x, shape=x.shape[: -self.transform_ndims])
+
+    def _forward_size_by_axis(self, shape: tuple, axis: int) -> int:
+        return shape[axis]
+
+    def _inverse_size_by_axis(self, shape: tuple, axis: int) -> int:
+        return shape[axis]
 
 
 @biject_to.register(constraints._ZeroSum)
