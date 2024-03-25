@@ -1,6 +1,13 @@
 -e file:.
 black
+localscope
+matplotlib
+myst-nb
+git+https://github.com/pyro-ppl/numpyro@84973a9
 pip-tools
 pytest
 sphinx
 sphinx-book-theme
+
+# Package version specification for lower Python versions.
+ipython<=8.18.1

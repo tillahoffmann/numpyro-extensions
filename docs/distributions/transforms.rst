@@ -1,6 +1,8 @@
 Transforms
 ==========
 
+.. _householder-transformations:
+
 Householder Transformations for Centering
 -----------------------------------------
 

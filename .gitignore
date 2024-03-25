@@ -154,3 +154,5 @@ cython_debug/
 
 playground/
 *.ipynb
+.jupyter_cache
+jupyter_execute

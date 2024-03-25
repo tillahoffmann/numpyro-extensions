@@ -1,13 +1,14 @@
-.PHONY : all docs doctests lint test
+.PHONY : all docs doctests lint test _clean_docs
 
 all : lint docs doctests test
 
-docs :
-	rm -rf docs/_build
+_clean_docs :
+	rm -rf docs/_build jupyter_execute
+
+docs : _clean_docs
 	sphinx-build -nW . docs/_build
 
-doctest :
-	rm -rf docs/_build
+doctest : _clean_docs
 	sphinx-build -b doctest . docs/_build
 
 lint :
