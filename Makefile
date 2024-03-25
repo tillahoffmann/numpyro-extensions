@@ -6,7 +6,7 @@ _clean_docs :
 	rm -rf docs/_build jupyter_execute
 
 docs : _clean_docs
-	sphinx-build -nW . docs/_build
+	sphinx-build -vnW . docs/_build
 
 doctest : _clean_docs
 	sphinx-build -b doctest . docs/_build

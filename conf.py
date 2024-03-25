@@ -35,3 +35,4 @@ myst_dmath_double_inline = True
 myst_enable_extensions = [
     "dollarmath",
 ]
+nb_execution_raise_on_error = True
