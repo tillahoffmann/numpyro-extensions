@@ -13,6 +13,6 @@ add_module_names = False
 intersphinx_mapping = {
     "jax": ("https://jax.readthedocs.io/en/latest/", None),
     "numpy": ("https://numpy.org/doc/stable/", None),
-    "numpyro": ("https://num.pyro.ai/en/stable/", None),
+    "numpyro": ("https://num.pyro.ai/en/latest/", None),
     "python": ("https://docs.python.org/3", None),
 }
