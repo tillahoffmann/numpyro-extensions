@@ -1,4 +1,6 @@
-.PHONY : docs doctests lint test
+.PHONY : all docs doctests lint test
+
+all : lint docs doctests test
 
 docs :
 	rm -rf docs/_build
