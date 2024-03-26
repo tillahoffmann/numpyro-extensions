@@ -19,7 +19,7 @@ Additive predictors in hierarchical models can lead to degeneracies because only
 {ref}`householder-transformations` discusses the background for the implementation of both transforms.
 ```
 
-Here, we consider the effect of different parameterization strategies on the posterior using simple examples of (multivariate) normal distributions. We have a random vector $\mathbf{y}\sim\mathsf{Normal}\left(0,\mathrm{C}\right)$ of length $n$ we seek to infer, where $\mathbf{C}$ is a covariance matrix. We first consider the setting of independent random variables.
+Here, we consider the effect of different parameterization strategies on the posterior using simple examples of (multivariate) normal distributions. We have a random vector $\mathbf{y}\sim\mathsf{Normal}\left(0,\mathbf{C}\right)$ of length $n$ we seek to infer, where $\mathbf{C}$ is a covariance matrix. We first consider the setting of independent random variables.
 
 ```{code-cell} ipython3
 import jax
