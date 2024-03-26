@@ -1,0 +1,6 @@
+Infer
+=====
+
+.. toctree::
+
+    reparam
