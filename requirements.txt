@@ -39,7 +39,9 @@ click==8.1.7
     #   jupyter-cache
     #   pip-tools
 comm==0.2.2
-    # via ipykernel
+    # via
+    #   ipykernel
+    #   ipywidgets
 contourpy==1.2.0
     # via matplotlib
 cycler==0.12.1
@@ -75,7 +77,10 @@ ipython==8.18.1
     # via
     #   -r requirements.in
     #   ipykernel
+    #   ipywidgets
     #   myst-nb
+ipywidgets==8.1.2
+    # via -r requirements.in
 jax==0.4.25
     # via numpyro
 jaxlib==0.4.25
@@ -102,6 +107,8 @@ jupyter-core==5.7.2
     #   jupyter-client
     #   nbclient
     #   nbformat
+jupyterlab-widgets==3.0.10
+    # via ipywidgets
 kiwisolver==1.4.5
     # via matplotlib
 localscope==0.2.0
@@ -283,6 +290,7 @@ traitlets==5.14.2
     #   comm
     #   ipykernel
     #   ipython
+    #   ipywidgets
     #   jupyter-client
     #   jupyter-core
     #   matplotlib-inline
@@ -299,6 +307,8 @@ wcwidth==0.2.13
     # via prompt-toolkit
 wheel==0.43.0
     # via pip-tools
+widgetsnbextension==4.0.10
+    # via ipywidgets
 zipp==3.18.1
     # via importlib-metadata
 

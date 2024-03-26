@@ -1,5 +1,6 @@
 -e file:.
 black
+ipywidgets
 localscope
 matplotlib
 myst-nb
