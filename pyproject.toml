@@ -3,5 +3,5 @@ name = "numpyro-extensions"
 version = "0.1.0"
 dependencies = ["numpyro"]
 
-[tool.setuptools]
-packages = ["numpyro_extensions"]
+[tool.setuptools.packages]
+find = {}
