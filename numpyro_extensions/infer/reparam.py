@@ -3,6 +3,7 @@ import numpyro
 from numpyro.infer.reparam import ExplicitReparam
 from typing import Callable, Optional
 from ..distributions.transforms import DecomposeSumTransform
+from ..util import demean
 
 
 class DecomposeSumReparam(ExplicitReparam):
@@ -78,6 +79,5 @@ def sample_zero_sum(
     config = {raw_name: DecomposeSumReparam(transform_ndims)}
     with numpyro.handlers.reparam(config=config):
         x = numpyro.sample(raw_name, fn, obs, rng_key, sample_shape, infer, obs_mask)
-    for i in range(transform_ndims):
-        x = x - x.mean(axis=-(i + 1))
+    x = demean(x, axis=range(-transform_ndims, 0))
     return numpyro.deterministic(name, x)
