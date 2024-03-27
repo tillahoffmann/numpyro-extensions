@@ -3,4 +3,5 @@ Infer
 
 .. toctree::
 
+    autoguide
     reparam
