@@ -18,3 +18,6 @@ def test_demean() -> None:
     y = util.demean(x, axis=-2)
     assert jnp.allclose(y.sum(axis=-2), 0, atol=1e-6)
     assert not jnp.allclose(y.sum(axis=-1), 0, atol=1e-6)
+
+    x = state.normal()
+    assert x == util.demean(x)
